@@ -13,7 +13,7 @@ extern "C" {
     #[wasm_bindgen(js_namespace = console)]
     fn log(s: &str);
 
-    #[wasm_bindgen(module = "../index")]
+    #[wasm_bindgen(module = "../update")]
     fn stats_updated(stats: JsValue);
 
     pub type Display;

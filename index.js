@@ -1,4 +1,6 @@
 import { Engine, PlayerCore } from './pkg/scooter';
+import { mySleep, getRandomInt, computePath } from './util';
+// import { stats_updated } from './update';
 
 const Game = {
     display: null,
@@ -8,7 +10,7 @@ const Game = {
     scheduler: null,
 
     init: function () {
-        console.log("TRACER v 08.19 08:40 init ...");
+        console.log("TRACER CHICAGO BLACKHAWKS init ...");
         this.display = new ROT.Display({ width: 125, height: 50 })
         document.getElementById("scooterCanvas").appendChild(this.display.getContainer());
 
@@ -75,6 +77,7 @@ Game._createBeing = function (what, freeCells) {
     return new what(x, y);
 }
 
+/*
 function computePath(x1, y1, x2, y2) {
     let passableCallback = function (x, y) {
         return Game.engine.free_cell(x, y);
@@ -89,6 +92,7 @@ function computePath(x1, y1, x2, y2) {
 
     return path;
 }
+*/
 
 function handlePlayerCaught(meanieName, index) {
     const player = Game.players[index];
@@ -133,7 +137,7 @@ const BruttoBug = function (x, y) {
 
         const px = Game.players[this._targetIndex].getX();
         const py = Game.players[this._targetIndex].getY();
-        let path = computePath(px, py, bx, by);
+        let path = computePath(px, py, bx, by, Game.engine);
 
         path.shift();
         if (path.length <= 1) {
@@ -159,7 +163,7 @@ BruttoBug.prototype.checkPlayerForCatch = function (player, playerIndex, bx, by,
     if ((player !== null) && (playerIndex !== this._targetIndex) && (! this.isPlayerInactive(player))) {
         const px = player.getX();
         const py = player.getY();
-        let path = computePath(px, py, bx, by);
+        let path = computePath(px, py, bx, by, Game.engine);
 
         path.shift();
         if (path.length <= 1) {
@@ -224,6 +228,7 @@ BruttoBug.prototype.getTargetIndex = function (targetIndex) {
 
 // ------------
 
+/*
 function mySleep(time_in_ms) {
   return new Promise((resolve) => setTimeout(resolve, time_in_ms));
 }
@@ -233,6 +238,7 @@ function getRandomInt(n) {
     let max = Math.floor(n);
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+*/
 
 function playerAct() {
     Game.rotengine.lock();
@@ -245,7 +251,7 @@ function playerAct() {
 
     const px = this._core.x();
     const py = this._core.y();
-    let path = computePath(x, y, px, py);
+    let path = computePath(x, y, px, py, Game.engine);
 
     path.shift();
     if (path.length <= 1) {
@@ -278,6 +284,7 @@ Player.prototype.getName = function () { return this._core.name(); }
 
 Game.init();
 
+/*
 export function stats_updated(stats) {
     document.getElementById("hitpoints").textContent = stats.hitpoints;
     document.getElementById("max_hitpoints").textContent = stats.max_hitpoints;
@@ -285,3 +292,4 @@ export function stats_updated(stats) {
     document.getElementById("x").textContent = stats.x;
     document.getElementById("y").textContent = stats.y;
 }
+*/
